@@ -33,3 +33,19 @@ export const deleteNote = mutation({
     await ctx.db.delete(args.noteId);
   },
 });
+
+// titleを更新する処理
+export const updateNote = mutation({
+  args: {
+    noteId: v.id("notes"), // ｸﾗｲｱﾝﾄからid,title,contentを受け取る
+    title: v.string(),
+    content: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.noteId, { // 指定されたidを見つけ、その中のtitle,content,listEditTimeを更新する
+      title: args.title,
+      content: args.content,
+      lastEditTime: Date.now(),
+    });
+  },
+});

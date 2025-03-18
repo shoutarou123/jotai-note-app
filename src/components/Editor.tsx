@@ -1,6 +1,11 @@
+import { useAtomValue } from "jotai"
+import { selectedNoteAtom } from "../store"
+
 function Editor() {
+  const selectedNote = useAtomValue(selectedNoteAtom)
+
   return (
-    <div>Editor</div>
+    <div>{selectedNote?.content}</div>
   )
 }
 
