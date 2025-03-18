@@ -1,4 +1,4 @@
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { notesAtom } from "./store";
 import { useEffect } from "react";
 import { Note } from "./domain/note";
@@ -9,7 +9,7 @@ import { api } from "../convex/_generated/api";
 
 function App() {
 
-  const [notes, setNotes] = useAtom(notesAtom); // stSetoreのnotesAtomを呼び出し
+  const setNotes = useSetAtom(notesAtom); // stSetoreのnotesAtomを呼び出し
   const initializeNotes = useQuery(api.notes.get) // queryで書いたものはuseQueryで呼び出す notesはconvex/notes.ts
 
   // 初回の読み込み時に下記のダミーデータが読み込まれる 実際のﾃﾞｰﾀﾍﾞｰｽから取得して、ｾｯﾄ関数に入れている

@@ -1,13 +1,28 @@
-import { useAtomValue } from "jotai"
 import { notesAtom } from "../store"
+import { api } from "../../convex/_generated/api"
+import { useMutation } from "convex/react"
+import { Note } from "../domain/note"
+import { useAtom } from "jotai"
 
 function SideMenu() {
-  const notes = useAtomValue(notesAtom) // storeのnotesAtomを取得
+  const [notes, setNotes] = useAtom(notesAtom) // storeのnotesAtomを取得
+  const createNote =  useMutation(api.notes.create) // ｻｰﾊﾞｰ側で定義されたcreateﾐｭｰﾃｰｼｮﾝを呼び出す準備
+
+  const handleCreateNote = async () => {
+    const noteId = await createNote({ // ｻｰﾊﾞｰ側で定義したcreateﾐｭｰﾃｰｼｮﾝにUntitledと空コンテントを渡しﾃﾞｰﾀﾍﾞｰｽに追加している
+      title: "Untitled",
+      content: "",
+    });
+
+    const newNote = new Note(noteId, "Untitled", "", Date.now()); // ｸﾗｲｱﾝﾄ側でｲﾝｽﾀﾝｽ作成しnoteId呼び出し Untitledと空ｺﾝﾃﾝﾄを渡している ﾃﾞｰﾀﾍﾞｰｽに渡すだけでも表示されるが、ここでも同じ値を渡すことで即時表示するようにしている。
+    setNotes([...notes, newNote]); // notesを展開して、最後に新しいﾃﾞｰﾀを追加している
+  }
+
   return (
     <div className="w-64 h-screen bg-gray-100 p-4 flex flex-col">
       <div>
         <h2>Notes</h2>
-        <button className="border-none">+</button>
+        <button className="border-none" onClick={handleCreateNote}>+</button>
       </div>
       <div>
         {notes.map((note) => (
