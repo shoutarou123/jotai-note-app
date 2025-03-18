@@ -65,8 +65,8 @@ function SideMenu() {
   return (
     <div className="w-64 h-screen bg-gray-100 p-4 flex flex-col">
       <div>
-        <h2>Notes</h2>
-        <button className="border-none" onClick={handleCreateNote}>+</button>
+        <h2 className="text-xl font-bold">Notes</h2>
+        <button className="border-none p-2 bg-white rounded hover:bg-gray-50" onClick={handleCreateNote}>+</button>
       </div>
       <div>
         {notes.map((note) => (

@@ -17,3 +17,16 @@ export const selectedNoteAtom = atom((get) => {
 
   return notes.find((note) => note.id === id);
 });
+
+
+// 読み書き可能な派生atom
+export const saveNoteAtom = atom(null, (get, set, newContent: string) => {
+  const note = get(selectedNoteAtom);
+  if (!note) return;
+
+  const updateNote = new Note(note.id, note.title, newContent, Date.now())
+  const notes = get(notesAtom)
+  const updateNotes = notes.map((note) => note.id === updateNote.id ? updateNote : note)
+
+  set(notesAtom, updateNotes);
+})
