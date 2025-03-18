@@ -24,3 +24,12 @@ export const create = mutation({
     return noteId; // 挿入したﾃﾞｰﾀを返す
   },
 });
+
+
+// ﾃﾞｰﾀを削除する処理
+export const deleteNote = mutation({
+  args: { noteId: v.id("notes")}, // noteIdは任意の変数名 id("notes")としているのはconvexのﾙｰﾙで上記のnotesJsonの型を見ればわかる
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.noteId);
+  },
+});

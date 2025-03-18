@@ -91,3 +91,34 @@ notes: これはあなたのプロジェクト内の特定のファイルまた�
 get: これは notes ファイル内で定義された特定のクエリ関数の名前です。あなたが先ほど共有したコードで定義されているものです：
 
  -->
+
+Convexでは、ctx.db.delete(args.noteId)のような記述で特定のドキュメントを削除します。このnoteIdは、そのドキュメントの一意識別子（ID）を指しています。
+
+Convexのデータベースは「Document-Relational」と呼ばれる構造を持っており、各ドキュメントにはIDが割り当てられています。このIDを指定して削除操作を行うと、そのドキュメント全体（title, content, lastEditTimeを含む全てのフィールド）が削除されます。
+
+つまり、IDを指定するだけで特定のドキュメント全体を削除できるのは、Convexのデータベース設計によるものです。これにより、開発者はより簡潔なコードで効率的にデータ操作を行うことができます。
+
+従来のリレーショナルデータベースのように個別のカラムを指定して削除する必要がなく、ドキュメント単位で操作できるのがConvexの特徴の一つと言えます。
+
+
+
+<!-- ************************** -->
+例）
+const notes = [
+  { id: "1", title: "Note 1" },
+  { id: "2", title: "Note 2" },
+  { id: "3", title: "Note 3" },
+];
+
+const noteIdToDelete = "2";
+
+const filteredNotes = notes.filter((note) => note.id !== noteIdToDelete);
+<!-- (note)は任意の変数名でnotesの配列が順番に入る 
+その中からnotesのid:2とnoteIdToDeleteの2が一致していないものをfilterで抽出している。
+-->
+
+console.log(filteredNotes);
+// 結果: [
+//   { id: "1", title: "Note 1" },
+//   { id: "3", title: "Note 3" }
+// ]
